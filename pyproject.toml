@@ -1,0 +1,127 @@
+[project]
+name = "AcmeCleaning-RoboMapper"
+version = "0.0.1"
+description = "A repository containing the code required for remote controlling AcmeCleaning's robots."
+authors = [{ name = "AndreiRoibu", email = "contact@andreiroibu.com" }]
+readme = "README.md"
+keywords = ['python']
+requires-python = ">=3.11, <3.12"
+classifiers = [
+    "Intended Audience :: General",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "fastapi",
+    "httpx",
+    "uvicorn[standard]",
+    "gunicorn",
+    "sqlalchemy",
+    "python-multipart",
+    "requests",
+]
+[dependency-groups]
+dev = [
+    "pytest>=7.2.0",
+    "pre-commit>=2.20.0",
+    "tox-uv>=1.11.3",
+    "pytest-cov>=4.0.0",
+    "ruff>=0.6.9",
+    "mkdocs>=1.4.2",
+    "mkdocs-material>=8.5.10",
+    "mkdocstrings[python]>=0.26.1",
+    "docker",
+]
+
+[project.urls]
+Homepage = "https://andreiroibu.com/"
+Repository = "https://andreiroibu.com/"
+Documentation = "https://andreiroibu.com/"
+
+[tool.uv.workspace]
+members = [""]
+
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "--strict-markers"
+markers = [
+    "benchmark: test is used for performance benchmarking. Selects all tests that support benchmarking.",
+    "performance_report: test is used for performance report. Selects all tests that are part of the performance report.",
+    "database: this test requires access to the database - can run in the Synthara intranet only.",
+    "fast: mark a test as fast. Used for fast testing.",
+    "serial: mark a test as serial. Used for sequential testing, aka test that must be run sequentially. The tflite tests need to be run sequentially, see issue 230.",
+    "slow: mark a test as slow. Used for release tests.",
+    "smoke: real fast tests. They all combined must execute in less than 1 minute. They are used to give a '80% confidence' that the code is working.",
+]
+testpaths = ["tests"]
+# Temporary directory configuration
+tmp_path_retention_policy = "failed"
+tmp_path_retention_count = 100
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+fix = true
+
+[tool.ruff.lint]
+select = [
+    # flake8-2020
+    "YTT",
+    # flake8-bandit
+    "S",
+    # flake8-bugbear
+    "B",
+    # flake8-builtins
+    "A",
+    # flake8-comprehensions
+    "C4",
+    # flake8-debugger
+    "T10",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+    # mccabe
+    "C90",
+    # pycodestyle
+    "E", "W",
+    # pyflakes
+    "F",
+    # pygrep-hooks
+    "PGH",
+    # pyupgrade
+    "UP",
+    # ruff
+    "RUF",
+    # tryceratops
+    "TRY",
+]
+ignore = [
+    # LineTooLong
+    "E501",
+    # DoNotAssignLambda
+    "E731",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.ruff.format]
+preview = true
+
+[tool.coverage.report]
+skip_empty = true
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
